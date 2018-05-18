@@ -1,6 +1,8 @@
 package com.swg.miaosha;
 
-import com.swg.miaosha.common.CommonCacheUtil;
+import com.swg.miaosha.key.MiaoshaUserKey;
+import com.swg.miaosha.model.MiaoshaUser;
+import com.swg.miaosha.redis.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MiaoshaApplicationTests {
 
 	@Autowired
-	private CommonCacheUtil commonCacheUtil;
+	private RedisService redisService;
 
 	@Test
 	public void contextLoads() {
@@ -20,7 +22,9 @@ public class MiaoshaApplicationTests {
 
 	@Test
 	public void setRedis(){
-		commonCacheUtil.cache("hello","world");
-		System.out.println(commonCacheUtil.getCacheValue("hello"));
+		MiaoshaUser user = new MiaoshaUser();
+		user.setId(1L);
+		user.setNickname("swg");
+		redisService.set(MiaoshaUserKey.token,"hello",user);
 	}
 }
