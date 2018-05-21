@@ -13,14 +13,14 @@ spring:
       # druid
       url: jdbc:mysql://localhost:3306/miaosha?useUnicode=true&characterEncoding=utf-8
       username: root
-      password: root
+      password: 123456
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
       filters: stat
-      maxActive: 20
-      initialSize: 1
+      maxActive: 1000
+      initialSize: 100
       maxWait: 60000
-      minIdle: 1
+      minIdle: 500
       timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
       validationQuery: select 'x'
@@ -32,9 +32,11 @@ spring:
 redis:
     host: 127.0.0.1
     port: 6379
-    max-idle: 5
-    max-total: 10
+    max-idle: 500
+    max-total: 1000
     max-wait-millis: 3000
 mybatis:
   type-aliases-package: com.swg.miaosha.model
-  mapper-locations: classpath:com/njupt/dao/mapper/**.xml
+  mapper-locations: classpath:com/njupt/dao/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

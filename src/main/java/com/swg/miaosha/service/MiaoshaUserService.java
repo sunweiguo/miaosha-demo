@@ -27,7 +27,7 @@ public class MiaoshaUserService {
 		return miaoshaUserDao.getById(id);
 	}
 
-	public boolean login(LoginVo loginVo,HttpServletResponse response) {
+	public String login(LoginVo loginVo,HttpServletResponse response) {
 		if (loginVo == null)
 			throw new GlobalException(CodeMsg.SERVER_ERROR);
 		String mobile = loginVo.getMobile();
@@ -52,7 +52,7 @@ public class MiaoshaUserService {
         CookieUtil.writeLoginToken(response,token);
 
 
-		return true;
+		return token;
 	}
 
     public MiaoshaUser getByToken(String token,HttpServletResponse response) {
