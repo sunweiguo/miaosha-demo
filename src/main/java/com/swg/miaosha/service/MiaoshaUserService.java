@@ -60,7 +60,7 @@ public class MiaoshaUserService {
             return null;
         }
         MiaoshaUser user = redisService.get(MiaoshaUserKey.token,token,MiaoshaUser.class);
-        redisService.set(MiaoshaUserKey.token,token,user);//key--->UserKey:tkUUID,value--->Serialized User
+        //redisService.set(MiaoshaUserKey.token,token,user);//key--->UserKey:tkUUID,value--->Serialized User
         if(user != null){
             redisService.set(MiaoshaUserKey.token,token,user);
         }

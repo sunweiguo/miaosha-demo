@@ -99,6 +99,22 @@ public class RedisService {
         }
     }
 
+    /**
+     * 删除
+     * */
+    public boolean del(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            long re = jedis.del(realKey);
+            return re>0;
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
     //bean->String
     private <T> String beanToString(T value) {
         if(value == null) {
