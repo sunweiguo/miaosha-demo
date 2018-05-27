@@ -19,35 +19,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class MQSender {
 
+
+
     @Autowired
     private AmqpTemplate amqpTemplate;
 
-    public void send(Object message){
-        amqpTemplate.convertAndSend(MQConfig.DIRECT_QUEUE_NAME,message);
-        log.info("send:{}",message);
-    }
-
-    public void sendTopic(Object message){
-        log.info("send topic msg:{}",message);
-        amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE_NAME,"topic.key1",message+"--1");
-        amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE_NAME,"topic.key2",message+"--2");
-
-    }
-
-
-    public void sendFanout(Object message){
-        log.info("send fanout msg:{}",message);
-        amqpTemplate.convertAndSend(MQConfig.FANOUT_EXCHANGE_NAME,"",message);
-    }
-
-    public void sendHeaders(Object message){
+    public void sendMiaoshaMessage(MiaoshaMessage message) {
         String msg = RedisService.beanToString(message);
-        log.info("send fanout msg:{}",message);
-        MessageProperties properties = new MessageProperties();
-        properties.setHeader("header1","value1");
-        properties.setHeader("header2","value2");
-        Message obj = new Message(msg.getBytes(),properties);
-        amqpTemplate.convertAndSend(MQConfig.HEADERS_EXCHANGE_NAME,"",obj);
+        log.info("send message:{}"+msg);
+        amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE,msg);
     }
-
 }
