@@ -1,6 +1,7 @@
 package com.swg.miaosha.redis;
 
 import com.swg.miaosha.key.KeyPrefix;
+import com.swg.miaosha.key.MiaoshaKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -152,6 +153,22 @@ public class RedisService {
     private void returnToPool(Jedis jedis) {
         if(jedis != null) {
             jedis.close();
+        }
+    }
+
+    /**
+     * 删除
+     * */
+    public boolean delete(KeyPrefix prefix, String key) {
+        Jedis jedis = null;
+        try {
+            jedis =  jedisPool.getResource();
+            //生成真正的key
+            String realKey  = prefix.getPrefix() + key;
+            long ret =  jedis.del(realKey);
+            return ret > 0;
+        }finally {
+            returnToPool(jedis);
         }
     }
 }
